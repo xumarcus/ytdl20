@@ -1,0 +1,40 @@
+{% if info %}
+    <tr>
+        <td><a href={{ info.webpage_url }}>{{ info.title }}</a></td>
+        <td><p class="has-text-info">{{ info.average_rating | round(2) }}</p></td>
+        <td>
+            <form action={{ url_for('stream') }} method="post" novalidate>
+                {{ info.stream_form.csrf_token() }}
+                <div class="field is-grouped is-justify-content-space-between">
+                    <div class="control">
+                        <div class="select">
+                            {{ info.stream_form.stream_url }}
+                        </div>
+                    </div>
+                    <div class="control">
+                        {{ info.stream_form.subm(class_="button is-link") }}
+                    </div>
+                </div>
+            </form>
+            <br />
+            <form action={{ url_for('download') }} method="post" novalidate>
+                {{ info.download_form.csrf_token() }}
+                {{ info.download_form.download_url(type="hidden", value=info.webpage_url) }}
+                <div class="field is-grouped is-justify-content-space-between">
+                    <div class="control">
+                        <div class="select">
+                            {{ info.download_form.download_format }}
+                        </div>
+                    </div>
+                    <div class="control">
+                        {{ info.download_form.subm(class_="button is-link") }}
+                    </div>
+                </div>
+            </form>
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td><p class="has-text-warning">Video Not Found</p></td>
+    </tr>
+{% endif %}

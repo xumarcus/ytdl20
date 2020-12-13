@@ -1,0 +1,6 @@
+flask
+flask-wtf
+gunicorn
+youtube_dl
+dacite
+humanfriendly

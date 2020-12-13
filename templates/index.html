@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form method="post" novalidate>
+        {{ form.csrf_token() }}
+        <div class="field">
+            <div class="control">
+                {{ form.urls(class_="textarea is-primary",
+                             placeholder="One link per line...") }}
+            </div>
+        </div>
+        <div class="field is-grouped is-justify-content-space-between">
+            <div class="block">
+
+            {% if msg %}
+                <p class="help is-danger">{{ msg }}</p>
+            {% endif %}
+
+            </div>
+            <div class="control">
+                {{ form.subm(class_="button is-primary") }}
+            </div>
+        </div>
+    </form>
+
+    {% if infos %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Rating</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for info in infos %}
+                {% include "info.html" %}
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+{% endblock %}
