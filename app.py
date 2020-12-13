@@ -36,7 +36,7 @@ class Info(object):
         ]
         self.download_form = DownloadForm()
         self.download_form.download_format.choices = [
-            (dash.url, '%s (%s)' % (
+            (dash.format_id, '%s (%s)' % (
                 VIDEO_FORMATS[dash.format_id],
                 humanfriendly.format_size(dash.filesize)))
             for dash in self.formats if dash.format_id in VIDEO_FORMATS
@@ -71,13 +71,13 @@ def download():
     if form.validate_on_submit():
         config = {
             'format': '%s+bestaudio/best' % form.download_format.data,
-            'outtmpl': '/tmp/%(format_id)s-%(id)s.%(ext)s',
+            'outtmpl': '%(format_id)s-%(id)s.%(ext)s',
             'merge_output_format': 'mkv'
         }
         with youtube_dl.YoutubeDL(config) as ydl:
             with suppress(youtube_dl.DownloadError):
                 info = ydl.extract_info(form.download_url.data, download=True)
-                filename = '/tmp/%(format_id)s-%(id)s.mkv' % info
+                filename = '%(format_id)s-%(id)s.mkv' % info
                 attachment_filename = '%(title)s.mkv' % info
                 return send_file(
                     filename, 
